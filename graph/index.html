@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<!--[if lt IE 7 ]><html class="ie ie6" lang="en"> <![endif]-->
+<!--[if IE 7 ]><html class="ie ie7" lang="en"> <![endif]-->
+<!--[if IE 8 ]><html class="ie ie8" lang="en"> <![endif]-->
+<!--[if (gte IE 9)|!(IE)]><!--><html lang="ru"> <!--<![endif]-->
+
+<head>
+
+	<meta charset="utf-8">
+
+	<title>Примеры объектов</title>
+	<meta name="description" content="">
+
+	<link rel="shortcut icon" href="img/favicon/favicon.ico" type="image/x-icon">
+	<link rel="apple-touch-icon" href="img/favicon/apple-touch-icon.png">
+	<link rel="apple-touch-icon" sizes="72x72" href="img/favicon/apple-touch-icon-72x72.png">
+	<link rel="apple-touch-icon" sizes="114x114" href="img/favicon/apple-touch-icon-114x114.png">
+	<!--<script src="libs/jquery/jquery-1.11.2.min.js"></script>-->
+
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+<!--	<link rel="stylesheet" href="libs/bootstrap/css/bootstrap-grid.min.css">
+	<link rel="stylesheet" href="libs/animate/animate.css"> -->
+
+	<!--<link rel="stylesheet" href="css/fonts.css">
+	<link rel="stylesheet" href="css/main.css">
+	<link rel="stylesheet" href="css/media.css">-->
+
+
+	<script src="build/three.min.js"></script>
+	<script src="js/controls/OrbitControls.js" ></script>
+	<script src="js/dat.gui.min.js"></script>
+	<script src="js/Detector.js"></script>
+
+	<script src="jsCode/onResize.js" charset="utf-8"></script> //функция "подгонки" окна
+
+
+
+	<style>
+		body {
+			margin: 0;
+			overflow: hidden;
+		}
+	</style>
+
+</head>
+
+<body>
+
+	<!-- Здесь пишем код -->
+
+	<!--<div id="webGL-container">
+
+	</div>-->
+
+	<script>
+			if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
+
+			var width = window.innerWidth;
+			var height = window.innerHeight;
+
+			var rend = new THREE.WebGLRenderer();
+			var view = new THREE.PerspectiveCamera( 45, width / height, 1, 1000 );
+
+			var controls = new THREE.OrbitControls( view, rend.domElement );
+			var scene = new THREE.Scene();
+
+			var matFloor = new THREE.MeshPhongMaterial();
+			var matBox = new THREE.MeshPhongMaterial( { color: 0x4080ff } );
+			var geoFloor = new THREE.BoxGeometry( 2000, 1, 2000 );
+			var geoBox = new THREE.BoxGeometry( 5, 5, 5 );
+			var mshFloor = new THREE.Mesh( geoFloor, matFloor );
+			var mshBox = new THREE.Mesh( geoBox, matBox );
+			var ambient = new THREE.PointLight  ( 0xffffff, 0.1 );
+			var spotLight = new THREE.SpotLight( 0xffffff, 1 );
+
+			var lightHelper;
+			var gui, guiElements, param = { color: '0xffffff' };
+
+			var pyramidGeometry = new THREE.CylinderGeometry(0, 5, 5, 10, false);
+
+			var pyramidMat = new THREE.MeshLambertMaterial({color: 0xffff00});
+
+								var pyramidMaterial = new THREE.MeshBasicMaterial({
+                     vertexColors:THREE.VertexColors,
+                     side:THREE.DoubleSide
+                 });
+
+                 // Create a mesh and insert the geometry and the material. Translate the whole mesh
+                 // by -1.5 on the x axis and by 4 on the z axis. Finally add the mesh to the scene.
+                 pyramidMesh = new THREE.Mesh(pyramidGeometry, pyramidMat);
+                 pyramidMesh.position.set(-10, 4.5, 27.0);
+								 pyramidMesh.castShadow = true;
+                 scene.add(pyramidMesh);
+
+
+			sharGeom = new THREE.SphereGeometry (5, 32, 32);
+		  sharMat = new THREE.MeshLambertMaterial({color: 0xffff00});
+		  shar = new THREE.Mesh( sharGeom, sharMat);
+			scene.add(shar);
+
+			shar.position.x = 5.5;
+		  shar.position.y = 4.5;
+		  shar.position.z = -15.5;
+		  shar.castShadow = true;
+
+			function init() {
+				rend.shadowMap.enabled = true;
+				rend.shadowMap.type = THREE.PCFSoftShadowMap;
+				rend.gammaInput = true;
+				rend.gammaOutput = true;
+				//rend.setClearColor(0xdddddd);
+				view.position.set( 65, 8, - 10 );
+				spotLight.position.set( 15, 40, 35 );
+				spotLight.castShadow = true;
+				spotLight.angle = Math.PI / 4;
+				//spotLight.penumbra = 0.05;
+				spotLight.decay = 2;
+				spotLight.distance = 200;
+				spotLight.shadow.mapSize.width = 1024;
+				spotLight.shadow.mapSize.height = 1024;
+				spotLight.shadow.camera.near = 1;
+				spotLight.shadow.camera.far = 200;
+				lightHelper = new THREE.SpotLightHelper( spotLight, 10 );
+				matFloor.color.set( 0x808080 );
+				mshFloor.receiveShadow = true;
+				mshFloor.position.set( 0, - 0.05, 0 );
+				mshBox.castShadow = true;
+				mshBox.position.set( 2.5, 5.8, 10 );
+				scene.add( view );
+				//scene.add( mshFloor );
+				var planeGeometry = new THREE.PlaneGeometry(70, 70, 70);
+			  var planeMaterial = new THREE.MeshLambertMaterial({color: 0xffffff});
+			  var plane = new THREE.Mesh(planeGeometry, planeMaterial);
+
+			  plane.rotation.x = -.5*Math.PI;
+			  plane.receiveShadow = true;
+
+			  scene.add(plane);
+				scene.add( mshBox );
+				scene.add( ambient );
+				scene.add( spotLight );
+				//scene.add( new THREE.AxisHelper( 10 ) );
+				scene.add( lightHelper );
+				document.body.appendChild( rend.domElement );
+				rend.setSize( window.innerWidth, window.innerHeight );
+				controls.addEventListener( 'change', render );
+				controls.minDistance = 20;
+				controls.maxDistance = 500;
+				controls.maxPolarAngle = Math.PI / 2;
+				controls.enablePan = false;
+				controls.target.copy( mshBox.position );
+				controls.update();
+				window.addEventListener( 'resize', onResize, false );
+			}
+
+
+
+			function render() {
+				lightHelper.update(); // required
+				rend.render( scene, view );
+			}
+
+			function clearGui() {
+				if ( gui ) gui.destroy();
+				gui = new dat.GUI();
+				gui.open();
+			}
+
+			guicontrols = new function() {
+				this.lightX = 15;
+				this.lightY = 40;
+				this.lightZ = 35;
+			}
+
+
+			function buildGui() {
+				clearGui();
+				addGui( 'Цвет источника', spotLight.color.getHex(), function( val ) {
+					spotLight.color.setHex( val );
+					render();
+				}, true );
+
+				addGui('Источник-осьX', spotLight.position.x, function(val) {
+					spotLight.position.x = val;
+					render();
+				}, false, 1, 50);
+
+				addGui('Источник-осьY', spotLight.position.y, function(val) {
+					spotLight.position.y = val;
+					render();
+				}, false, 1, 50);
+
+				addGui('Источник-осьZ', spotLight.position.z, function(val) {
+					spotLight.position.z = val;
+					render();
+				}, false, 1, 50);
+
+
+				addGui( 'Интенсивность', spotLight.intensity, function( val ) {
+					spotLight.intensity = val;
+					render();
+				}, false, 0, 2 );
+				addGui( 'Дальность', spotLight.distance, function( val ) {
+					spotLight.distance = val;
+					render();
+				}, false, 0, 200 );
+				addGui( 'Угол', spotLight.angle, function( val ) {
+					spotLight.angle = val;
+					render();
+				}, false, 0, Math.PI / 3 );
+
+			}
+			function addGui( name, value, callback, isColor, min, max ) {
+				var node;
+				param[ name ] = value;
+				if ( isColor ) {
+					node = gui.addColor( param, name ).onChange( function() {
+						callback( param[ name ] );
+					} );
+				} else if ( typeof value == 'object' ) {
+					node = gui.add( param, name, value ).onChange( function() {
+						callback( param[ name ] );
+					} );
+				} else {
+					node = gui.add( param, name, min, max ).onChange( function() {
+						callback( param[ name ] );
+					} );
+				}
+				return node;
+			}
+			init();
+			buildGui();
+			render();
+		</script>
+
+	<!--<script src="js/main.js"></script>-->
+
+	<div class="hidden"></div>
+
+	<div class="loader">
+		<div class="loader_inner"></div>
+	</div>
+
+	<!--[if lt IE 9]>
+	<script src="libs/html5shiv/es5-shim.min.js"></script>
+	<script src="libs/html5shiv/html5shiv.min.js"></script>
+	<script src="libs/html5shiv/html5shiv-printshiv.min.js"></script>
+	<script src="libs/respond/respond.min.js"></script>
+	<![endif]-->
+
+
+
+
+
+</body>
+</html>

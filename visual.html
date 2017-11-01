@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<!--[if lt IE 7 ]><html class="ie ie6" lang="en"> <![endif]-->
+<!--[if IE 7 ]><html class="ie ie7" lang="en"> <![endif]-->
+<!--[if IE 8 ]><html class="ie ie8" lang="en"> <![endif]-->
+<!--[if (gte IE 9)|!(IE)]><!--><html lang="ru"> <!--<![endif]-->
+
+<head>
+
+	<meta charset="utf-8">
+
+	<title>Комьютерная графика</title>
+	<meta name="description" content="">
+
+	<link rel="shortcut icon" href="img/favicon/favicon.ico" type="image/x-icon">
+	<link rel="apple-touch-icon" href="img/favicon/apple-touch-icon.png">
+	<link rel="apple-touch-icon" sizes="72x72" href="img/favicon/apple-touch-icon-72x72.png">
+	<link rel="apple-touch-icon" sizes="114x114" href="img/favicon/apple-touch-icon-114x114.png">
+
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+	<link rel="stylesheet" href="libs/bootstrap/css/bootstrap-grid.min.css">
+	<link rel="stylesheet" href="libs/animate/animate.css">
+
+	<link rel="stylesheet" href="css/fonts.css">
+	<link rel="stylesheet" href="css/main.css">
+	<link rel="stylesheet" href="css/media.css">
+
+	<script src="libs/modernizr/modernizr.js"></script>
+
+</head>
+
+<body>
+
+
+
+
+	<section class="main_menu">
+		<div class="col-lg-2 navigation">
+				<div class="head_nav">
+						<h1>Навигация</h1>
+				</div>
+
+				<div class="wrapper_spisok">
+					<ul class="spisok">
+						<li><a href="index.html">Главная</a></li>
+						<li class="choosen"><a href="visual.html">Визуализация изображений</a></li>
+						<li><a href="#">Базовые растровые алгоритмы</a></li>
+						<li><a href="#">Алгоритмы трехмерной графики</a></li>
+						<li><a href="graph/index.html">Примеры объектов</a></li>
+					</ul>
+				</div>
+
+		</div>
+		<div class="col-lg-10 canva">
+				<h2>Алгоритм вывода прямой линии</h2>
+				<p>Рассмотрим растровые алгоритмы для отрезков прямой линии. Предположим, что заданы координаты (х1,у1 - х2,у2) концов отрезка прямой. Для вывода линии необходимо закрасить в определенный цвет все пикселы вдоль линии. Для того чтобы закрасить каждый пиксел, необходимо знать его координаты.</p>
+				<p>Наиболее просто нарисовать отрезок горизонтальной линии:</p>
+				<p>for (x=xl; х<=х2; х++) Пиксел(х, yl) ;</p>
+				<p>Вычисление текущих координат пиксела здесь выполняется как приращение по х (необходимо, чтобы х1<=х2) а вывод пиксела обеспечивается функцией Пиксел(). Поскольку в языке С, C++ для названия функции нельзя использовать кириллицу, то будем дальше использовать ее как комментарий.</p>
+				<p>Аналогично рисуется отрезок вертикали:</p>
+				<p>for (y=yl; у<=у2; у++) //Пиксел(xl, у);</p>
+				<p>Как видим, в цикле выполняются простейшие операции над целыми числами— приращение на единицу и проверка на "< =". Поэтому операция рисования отрезка выполняется быстро и просто. Ее используют как базовую операцию для других операций, например, в алгоритмах заполнения плоскости полигонов.</p>
+
+				<img src="img/item2.png" alt="Фото2">
+		</div>
+	</section>
+
+	<div class="hidden"></div>
+
+	<div class="loader">
+		<div class="loader_inner"></div>
+	</div>
+
+	<!--[if lt IE 9]>
+	<script src="libs/html5shiv/es5-shim.min.js"></script>
+	<script src="libs/html5shiv/html5shiv.min.js"></script>
+	<script src="libs/html5shiv/html5shiv-printshiv.min.js"></script>
+	<script src="libs/respond/respond.min.js"></script>
+	<![endif]-->
+
+	<script src="libs/jquery/jquery-1.11.2.min.js"></script>
+	<script src="libs/waypoints/waypoints.min.js"></script>
+	<script src="libs/animate/animate-css.js"></script>
+	<script src="libs/plugins-scroll/plugins-scroll.js"></script>
+
+	<script src="js/common.js"></script>
+
+</body>
+</html>
